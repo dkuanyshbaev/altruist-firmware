@@ -69,6 +69,10 @@
 #define DNMS_READ 0
 #define DNMS_API_PIN 15
 #define DNMS_CORRECTION "0.0"
+
+// ME2-CO Carbon Monoxide sensor
+#define ME2_READ 1
+#define ME2_API_PIN 14
 /*
 
 // Temp compensation
