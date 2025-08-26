@@ -27,13 +27,13 @@
 #include "./defines.h"
 //#include "./ext_def.h"
 #include <SPIFFS.h>
+#include <WiFi.h>
 
 String get_chipid() {
-	uint64_t chipid_num;
-	chipid_num = ESP.getEfuseMac();
-	String esp_chipid((uint16_t)(chipid_num >> 32), HEX);
-	esp_chipid += String((uint32_t)chipid_num, HEX);
-	return esp_chipid;
+	WiFi.mode(WIFI_STA);  // Initialize WiFi to get MAC
+	String mac = WiFi.macAddress();
+	mac.replace(":", "");  // "AA:BB:CC:DD:EE:FF" -> "AABBCCDDEEFF"
+	return mac;
 }
 
 String tmpl(const __FlashStringHelper* patt, const String& value) {
