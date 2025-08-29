@@ -28,7 +28,8 @@ void formatRobonomicsString(JsonDocument &data, String &datalog_data) {
             else if (type == "pressure") datalog_data += "p:" + value + ",";
             else if (type == "humidity" && datalog_data.indexOf("h:") == -1) datalog_data += "h:" + value + ",";
             else if (type == "radiation") datalog_data += "gc:" + value + ",";
-            else if (type == "co2") datalog_data += "co:" + value + ","; 
+            else if (type == "co2") datalog_data += "co:" + value + ",";
+            else if (type == "CO") datalog_data += "co1:" + value + ",";
         }
     }
     datalog_data.remove(datalog_data.length() - 1);
