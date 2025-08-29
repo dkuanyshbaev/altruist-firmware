@@ -30,10 +30,23 @@
 #include <WiFi.h>
 
 String get_chipid() {
-	WiFi.mode(WIFI_STA);  // Initialize WiFi to get MAC
-	String mac = WiFi.macAddress();
-	mac.replace(":", "");  // "AA:BB:CC:DD:EE:FF" -> "AABBCCDDEEFF"
-	return mac;
+	static String cached_chipid = "";  // Static variable to cache the ID
+	
+	if (cached_chipid.length() == 0) {  // Only get it once
+		WiFiMode_t previousMode = WiFi.getMode();  // Save current mode
+		WiFi.mode(WIFI_STA);  // Initialize WiFi to get MAC
+		String mac = WiFi.macAddress();
+		mac.replace(":", "");  // "AA:BB:CC:DD:EE:FF" -> "AABBCCDDEEFF"
+		cached_chipid = mac;
+		
+		// Restore previous mode only if it wasn't OFF
+		if (previousMode != WIFI_OFF) {
+			WiFi.mode(previousMode);
+		}
+		// If it was OFF, leave it in STA mode for the wifi manager to handle
+	}
+	
+	return cached_chipid;
 }
 
 String tmpl(const __FlashStringHelper* patt, const String& value) {
